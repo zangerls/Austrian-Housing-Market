@@ -13,12 +13,12 @@ def classify_key_data(key_data):
     price_raw = price_raw.split(' ')
     price_raw = price_raw[0]
 
-    if price_raw == 'Preis':
-        price = 0
-    else:
-        price_raw = price_raw.replace('.','')
-        price_raw = price_raw.replace(',','')
+    price_raw = price_raw.replace('.','')
+    price_raw = price_raw.replace(',','')
+    try:
         price = int(price_raw)
+    except:
+        price = 0
 
     for item in key_data:
         if 'Zimmer' in item:

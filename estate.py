@@ -1,3 +1,6 @@
+from transform import postal_code
+
+
 class Estate:
     def __init__(self, postal_code, rooms, area, garden_area, price):
         self.postal_code = postal_code
@@ -24,3 +27,8 @@ class Estate:
 all_estates = []
 def estate_collection(estate):
     all_estates.append(estate)
+
+estates_list = []
+def append_estates_list(postal_code, rooms, area, garden_area, price):
+    estate_lst = [postal_code, rooms, area, garden_area, price]
+    estates_list.append(estate_lst)

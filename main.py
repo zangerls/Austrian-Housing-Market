@@ -2,6 +2,7 @@ import scrape as sc
 import transform as tr
 import estate as es
 import db
+import to_csv as csv
 
 # create connection to MariaDB database
 cursor = db.create_connection()
@@ -38,7 +39,10 @@ def run(url):
         es.estate_collection(my_estate)
         # pass Estate object to database function and insert its attributes into database
         db.insert(my_estate, cursor)
-
+        # create csv file for regressioestn models
+        es.append_estates_list(postal, rooms, sqm, garden, price)
+        csv.create_csv(es.estates_list)
+        
     return
 
 # upper bound = number of pages to scrape (1-100) <- RUN THIS FUNCTION TO START THE PROCESS
@@ -51,3 +55,5 @@ def pages(upper_bound):
             extension = f'/seite-{i}'
             url = main_URL + extension
         run(url)
+
+pages(100)
