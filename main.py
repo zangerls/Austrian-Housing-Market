@@ -56,4 +56,5 @@ def pages(upper_bound):
             url = main_URL + extension
         run(url)
 
-pages(100)
+if __name__ == '__main__':
+    pages(100)
