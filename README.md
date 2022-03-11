@@ -286,4 +286,86 @@ if __name__ == '__main__':
 
 ## Machine Learning
 
-As a quick preview to how the data might get used for analysis, I created a small machine learning note
+As a quick preview to how the data might get used for analysis, I created a small machine learning notebook using three different regression models to predict the estate's price.
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.neighbors import KNeighborsRegressor
+```
+
+```python
+df = pd.read_csv('estates.csv')
+df.head()
+```
+
+```python
+df['postal_code'] = df['postal_code'] // 1000
+```
+
+```python
+df['total_area'] = df['area'] + df['garden_area']
+```
+
+```python
+df.isna().sum().sort_values(ascending=False)
+```
+
+```python
+df.dropna(inplace=True)
+df.dtypes
+```
+
+```python
+df.describe().T
+```
+
+```python
+df.loc[(df['rooms'] > 10)]['postal_code'].count()
+df.drop(df[df.rooms > 10].index, inplace=True)
+plt.boxplot(df['area'])
+plt.show()
+```
+
+```python
+X = df.drop('price', axis=1)
+y = df['price']
+sc = StandardScaler()
+scaled = sc.fit_transform(X)
+
+X_cols = X.columns
+
+X = pd.DataFrame(scaled, columns=X_cols)
+
+X.head()
+```
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=44)
+```
+
+```python
+lr = LinearRegression()
+
+regressor = lr.fit(X_train, y_train)
+
+y_pred = regressor.predict(X_test)
+
+mae = mean_absolute_error(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+
+print(f'Mean Absolute Error: {mae}')
+print(f'Mean Squared Error: {mse}')
+print(f'Root Mean Squared Error: {rmse}')
+```
+
+## Thank you for your interest in this project!
